@@ -372,19 +372,9 @@ define([
             alert('Please refresh your browser! We just pushed a new update to the server!');
         });
 
-        self.ws.on('connect', function() {
-
-            requestOtt(function(err, ott) {
-                if (err && err != 401) { // If the error is 401 means the user is not logged in
-                    console.error('request ott error:', err);
-                    if (confirm("An error, click to reload the page: " + err))
-                        location.reload();
-                    return;
-                }
-
-                //If there is a Dev ott use it
-                self.ws.emit('join', { ott: window.DEV_OTT? window.DEV_OTT : ott },
-                    function(err, resp) {
+self.ws.on('join', function(resp) {
+    var err;
+    console.log('more data', resp);
                         if (err) {
                             console.error('Error when joining the game...', err);
                             return;
@@ -398,6 +388,7 @@ define([
 
                         /** Variable to check if we are connected to the server */
                         self.isConnected = true;
+// console.log('PASSED3');
                         self.gameState = resp.state;
                         self.playerInfo = resp.player_info;
 
@@ -424,7 +415,29 @@ define([
                         }
                             
                         self.trigger('connected');
-                    }
+});
+        self.ws.on('connect', function() {
+
+            requestOtt(function(err, ott) {
+  		 if (err && err != 401) { // If the error is 401 means the user is not logged in
+                    console.error('request ott error:', err);
+                    if (confirm("An error, click to reload the page: " + err))
+                        location.reload();
+                    return;
+                }
+self.ws.on('connect_error', function(error) {
+    console.log('==1==', error);
+});
+self.ws.on('messageSuccess', function(data) {
+	console.log('some data', data);
+});
+
+console.log('=====pre self.ws.on');
+self.ws.on('error', function(error) {
+    console.log('==2==', error);
+});
+                //If there is a Dev ott use it
+                self.ws.emit('join', ott, //{ ott: window.DEV_OTT? window.DEV_OTT : ott },
                 );
             });
         });

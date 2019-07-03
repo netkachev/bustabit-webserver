@@ -17,6 +17,7 @@ define([
             if (!engine.username)
                 return null;
             else
+		if (!engine.playerInfo) { engine.playerInfo = {} };
                 return engine.playerInfo[engine.username];
         },
 
@@ -66,6 +67,7 @@ define([
         isBetting : function(engine) {
             if (!engine.username) return false;
             if (engine.nextBetAmount) return true;
+		if (!engine.joined) { engine.joined = [] };
             for (var i = 0 ; i < engine.joined.length; ++i) {
                 if (engine.joined[i] == engine.username)
                     return true;

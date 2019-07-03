@@ -88,7 +88,9 @@ function Chat(io) {
         //Join to a Room
         socket.on('join', function(channelName) {
             debug('join event received from user %s', socket.user ? socket.user.username : '~guest~');
+	    debug('Value of channelName is ', channelName);
             self.join(socket, channelName);
+	    debug('PASSED join socket');
         });
 
         //Register the message event
@@ -129,7 +131,6 @@ Chat.prototype.join = function(socket, channelName) {
 
     //Save the name of the current room in the socket, this can also be used to check if the user is joined into a channel
     socket.currentChannel = channelName;
-
     //Get user history of a room and send it to the user
     self.getHistory(channelName, function(err, history) {
 
@@ -156,7 +157,10 @@ Chat.prototype.join = function(socket, channelName) {
         }
 
         //Return join info to the user
-        socket.emit('join', res);
+	socket.on('messageSuccess', function(data) {
+		console.log('+++++ack', data);
+	});
+        socket.emit('join', res); //, function(data) {
     });
 
 };

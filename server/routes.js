@@ -9,7 +9,6 @@ var stats = require('./stats');
 var config = require('../config/config');
 var recaptchaValidator = require('recaptcha-validator');
 
-
 var production = process.env.NODE_ENV === 'production';
 
 function staticPageLogged(page, loggedGoTo) {
@@ -84,21 +83,22 @@ function adminRestrict(req, res, next) {
 }
 
 function recaptchaRestrict(req, res, next) {
+//  next();
   var recaptcha = lib.removeNullsAndTrim(req.body['g-recaptcha-response']);
-  if (!recaptcha) {
-    return res.send('No recaptcha submitted, go back and try again');
-  }
-
+//  if (!recaptcha) {
+//    return res.send('No recaptcha submitted, go back and try again');
+//  }
+  recaptcha = 'testcaptcha';
   recaptchaValidator.callback(config.RECAPTCHA_PRIV_KEY, recaptcha, req.ip, function(err) {
-    if (err) {
-      if (typeof err === 'string')
-        res.send('Got recaptcha error: ' + err + ' please go back and try again');
-      else {
-        console.error('[INTERNAL_ERROR] Recaptcha failure: ', err);
-        res.render('error');
-      }
-      return;
-    }
+//    if (err) {
+//      if (typeof err === 'string')
+//        res.send('Got recaptcha error: ' + err + ' please go back and try again');
+//      else {
+//        console.error('[INTERNAL_ERROR] Recaptcha failure: ', err);
+//        res.render('error');
+//      }
+//      return;
+//    }
 
     next();
   });

@@ -8,6 +8,7 @@ define([
     Mousetrap
 ) {
 
+console.log('PASSED2');
     var Game = React.createFactory(GameClass);
 
     Mousetrap.bind('backspace', function(e) {
