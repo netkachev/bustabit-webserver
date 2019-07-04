@@ -15,5 +15,4 @@ requirejs.config({
     }
 });
 
-console.log('PASSED');
 require(['game']);

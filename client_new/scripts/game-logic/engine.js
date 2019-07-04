@@ -388,7 +388,6 @@ self.ws.on('join', function(resp) {
 
                         /** Variable to check if we are connected to the server */
                         self.isConnected = true;
-// console.log('PASSED3');
                         self.gameState = resp.state;
                         self.playerInfo = resp.player_info;
 
